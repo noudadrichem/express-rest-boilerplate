@@ -17,7 +17,6 @@ const controllerVariables = {
   log
 }
 
-
 function initRoutes(db) {
   const router = express()
   fs.readdirPromise('./app/services')
