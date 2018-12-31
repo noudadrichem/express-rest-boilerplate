@@ -26,7 +26,7 @@ function initRoutes(db) {
         router.use(`/${directoryName}`, controllers[directoryName]({...controllerVariables, db}))
       })
     })
-    .then(initializeDatabaseConnection)
+    .then(() => initializeDatabaseConnection({ log }))
 
   return router
 }

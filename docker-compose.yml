@@ -1,0 +1,29 @@
+version: '3'
+services:
+  app:
+    build: .
+    environment:
+      - NODE_ENV=development
+      - MONGO_URL=mongodb://mongodb:27017/rest-boiler
+    ports:
+      - 9094:9094
+    volumes:
+      - ./app:/home/node/app/app:rw
+      - ./config:/home/node/app/config:rw
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
+  mongodb:
+    image: mongo:latest
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    volumes:
+      - mongodata:/data/db
+    ports:
+      - 27017:27017
+    command: mongod --bind_ip_all --logpath=/dev/null
+
+volumes:
+  mongodata:
