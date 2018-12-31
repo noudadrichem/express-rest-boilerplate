@@ -2,20 +2,20 @@ import mongoose from 'mongoose';
 import Promise from 'bluebird'
 import { database } from '../config'
 
-export default function initializeDatabaseConnectino() {
+export default function initializeDatabaseConnectino({ log }) {
   mongoose.Promise = Promise
   const { username, password, host, port, name } = database
-  const URL = `mongodb://${username !== '' ? `${username }:${password}@` : ''}${host}:${port}/${name}`
+  const generatedMongoUrl = `mongodb://${username !== '' ? `${username || process.env.MONGODB_USER }:${password || process.env.MONGODB_PASS}@` : ''}${host}:${port}/${name}`
+  const URL = process.env.MONGO_URL || generatedMongoUrl
 
   return new Promise((resolve, reject) => {
-    const db = mongoose.connect(URL, {
-      useMongoClient: true
-    })
-    if(db) {
-      console.log('Database connected succesfully')
-      resolve(db)
-    } else {
-      reject()
-    }
+    mongoose.connect(URL, { useMongoClient: true })
+      .then(db => {
+        log.info(`Database connected succesfully to ${URL}`)
+        resolve(db)
+      }).catch(err => {
+        log.error('Database connection failed', { err })
+        reject(err)
+      })
   })
 }

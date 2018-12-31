@@ -41,13 +41,19 @@ module.exports = {
       doc: '',
       default: '',
       format: String,
-      env: 'DATBASE_USERNAME'
+      env: 'MONGODB_USER'
     },
     password: {
       doc: '',
       default: '',
       format: String,
-      env: 'DATABASE_PASSWORD'
+      env: 'MONGODB_PASS'
+    },
+    url: {
+      doc: 'Mongo db connection URL',
+      default: '',
+      format: String,
+      env: 'MONGO_URL'
     }
   },
   http: {
