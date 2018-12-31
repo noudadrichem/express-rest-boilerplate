@@ -51,7 +51,7 @@ module.exports = {
     },
     url: {
       doc: 'Mongo db connection URL',
-      default: '',
+      default: 'mongodb://mongodb:27017/rest-boiler',
       format: String,
       env: 'MONGO_URL'
     }
